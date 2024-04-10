@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMP1903_A1_2324
+namespace CMP1903_A2_2324
 {
     internal class Game
     {
@@ -17,6 +17,56 @@ namespace CMP1903_A1_2324
 
         /// <summary>  Creates three die objects, rolls them and outputs the values and their sum. </summary>
 
+        public void Menu()
+        {
+            Console.WriteLine("\nSevens Out (1)\nThree Or More (2)\nStatistics (3)\nTesting (4)");
+            try
+            {
+                int menuChoice = int.Parse(Console.ReadLine());
+                Console.WriteLine("\n");
+
+                if (menuChoice == 1)
+                {
+                    SevensOut sevensOut = new SevensOut();
+                    sevensOut.Main();
+                }
+                else if (menuChoice == 2)
+                {
+                    ThreeOrMore threeOrMore = new ThreeOrMore();
+                    threeOrMore.Main();
+                }
+                else if (menuChoice == 3)
+                {
+                    Statistics statistics = new Statistics();
+                }
+                else if (menuChoice == 4)
+                {
+                    Testing testing = new Testing();
+                }
+                else
+                {
+                    Console.WriteLine("Input must be an integer between 1 and 4");
+                    Menu();
+                }
+
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Input must be an integer");
+                Menu();
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Input too big or small");
+                Menu();
+            }
+            catch (Exception exception) 
+            {
+                Console.WriteLine($"Exception {exception}");
+                Menu();
+            }
+
+        }
 
         //Method
         public (int, int, int, int) Main()
