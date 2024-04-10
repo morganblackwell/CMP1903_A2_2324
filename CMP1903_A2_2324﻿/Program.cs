@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMP1903_A1_2324
+namespace CMP1903_A2_2324
 {
     internal class Program
     {
@@ -22,6 +22,9 @@ namespace CMP1903_A1_2324
 
             while (true) // Runs continuously 
             {
+                Game game = new Game();
+                game.Menu();
+
                 Console.WriteLine("How many times should three dice be rolled?");
 
                 try
