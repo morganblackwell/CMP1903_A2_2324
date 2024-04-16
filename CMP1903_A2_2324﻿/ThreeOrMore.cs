@@ -59,8 +59,18 @@ namespace CMP1903_A2_2324
                 {
                     Console.WriteLine("2-of-a-kind");
                     Console.WriteLine($"Total: {total}");
-                    Console.WriteLine($"Rethrow all (1)\nRethrow from dice {bestIndex +  1} (2)");
-                    int rethrowChoice = int.Parse(Console.ReadLine());
+                    int rethrowChoice;
+                    if (bestIndex != 4)
+                    {
+                        Console.WriteLine($"Rethrow all (1)\nRethrow from dice {bestIndex + 1} (2)");
+                        rethrowChoice = int.Parse(Console.ReadLine());
+                    }
+                    else
+                    {
+                        Console.WriteLine("Rethrow all (1)");
+                        rethrowChoice = int.Parse(Console.ReadLine());
+                    }
+
                 }
                 else if (bestCount == 3)
                 {
