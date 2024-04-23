@@ -10,6 +10,9 @@ namespace CMP1903_A2_2324
     {
         public void Main()
         {
+            Statistics statistics = new Statistics();
+            statistics.SetTimesPlayed();
+
             int score = 0; // Start score at 0
 
             // Create two dice
@@ -42,7 +45,13 @@ namespace CMP1903_A2_2324
                 }
                 else // Stops when roll total = 7
                 {
+                    if (score > statistics.GetSevensHighScore()) // Check if score > high score
+                    {
+                        statistics.SetSevensHighScore(score); // Change high score
+                    }
+
                     Console.WriteLine($"Roll 1: {roll1}\nRoll 2: {roll2}\nFinal Score: {score}\n"); // Output total 7 roll and final score
+                    statistics.OutputStatistics(); // Output stats
                     break;
                 }
             }
