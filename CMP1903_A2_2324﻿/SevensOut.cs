@@ -67,22 +67,22 @@ namespace CMP1903_A2_2324
                 {
                     if (playerOneScore > playerTwoScore)
                     {
-                        Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}");
+                        Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}:{playerTwoScore}");
                     }
                     else if (playerTwoScore > playerOneScore)
                     {
                         if (twoPlayer == true)
                         {
-                            Console.WriteLine($"Player 2 Wins, Score: {playerTwoScore}");
+                            Console.WriteLine($"Player 2 Wins, Score: {playerTwoScore}:{playerOneScore}");
                         }
                         else
                         {
-                            Console.WriteLine($"Computer Wins, Score: {playerTwoScore}");
+                            Console.WriteLine($"Computer Wins, Score: {playerTwoScore}:{playerOneScore}");
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Draw, Score: {playerOneScore}");
+                        Console.WriteLine($"Draw, Score: {playerOneScore}:{playerTwoScore}");
                     }
 
                     break;
