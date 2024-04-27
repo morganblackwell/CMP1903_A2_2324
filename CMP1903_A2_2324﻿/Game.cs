@@ -35,6 +35,7 @@ namespace CMP1903_A2_2324
                     else if (menuChoice == 4)
                     {
                         Testing testing = new Testing();
+                        testing.TestDice();
                     }
                     else
                     {
