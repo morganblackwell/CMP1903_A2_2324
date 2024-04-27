@@ -67,7 +67,6 @@ namespace CMP1903_A2_2324
             if (bestCount == 2)
             {
                 Console.WriteLine("2-of-a-kind");
-                Console.WriteLine($"Total: {total}");
                 int rethrowChoice;
                 if (bestIndex != 4)
                 {
@@ -94,26 +93,24 @@ namespace CMP1903_A2_2324
                 }
 
             }
-            else if (bestCount == 3)
-            {
-                Console.WriteLine("3-of-a-kind");
-                total += 3;
-                Console.WriteLine($"Total: {total}");
-            }
-            else if (bestCount == 4)
-            {
-                Console.WriteLine("4-of-a-kind");
-                total += 6;
-                Console.WriteLine($"Total: {total}");
-            }
-            else if (bestCount == 5)
-            {
-                Console.WriteLine("5-of-a-kind");
-                total += 12;
-                Console.WriteLine($"Total: {total}");
-            }
             else
             {
+                if (bestCount == 3)
+                {
+                    Console.WriteLine("3-of-a-kind");
+                    total += 3;
+                }
+                else if (bestCount == 4)
+                {
+                    Console.WriteLine("4-of-a-kind");
+                    total += 6;
+                }
+                else if (bestCount == 5)
+                {
+                    Console.WriteLine("5-of-a-kind");
+                    total += 12;
+                }
+
                 Console.WriteLine($"Total: {total}");
             }
 
@@ -123,12 +120,32 @@ namespace CMP1903_A2_2324
 
         public void Main()
         {
-            int total = 0; // Start score at 0
+            Console.WriteLine("Multiplayer (1) or Computer (2)");
+            int opponentOption = int.Parse(Console.ReadLine());
+            Console.WriteLine();
 
+            bool twoPlayer;
+            if (opponentOption == 1) twoPlayer = true; else twoPlayer = false;
+
+            bool activePlayer = true; // false = player 1, true = player 2
+
+            int playerOneScore = 0;
+            int playerTwoScore = 0;
+             
             Die[] dice = CreateDice();
 
-            while (total < 20)
+            while (playerOneScore < 20 && playerTwoScore < 20)
             {
+                Console.WriteLine();
+                if (twoPlayer == false)
+                {
+                    Console.WriteLine($"{(activePlayer ? "Player 1" : "Computer")}");
+                }
+                else
+                {
+                    Console.WriteLine($"Player {(activePlayer ? 1 : 2)}");
+                }
+
                 Console.WriteLine("\nPress Enter to Roll: ");
                 Console.ReadLine();
 
@@ -136,7 +153,34 @@ namespace CMP1903_A2_2324
 
                 (int bestIndex, int bestCount) = GetBestRoll(rolls);
 
-                total = GetTotal(bestCount, total, bestIndex, dice, rolls);
+                if (activePlayer == true)
+                {
+                    playerOneScore = GetTotal(bestCount, playerOneScore, bestIndex, dice, rolls);
+                }
+                else
+                {
+                    playerTwoScore = GetTotal(bestCount, playerTwoScore, bestIndex, dice, rolls);
+                }
+                
+
+                activePlayer = !activePlayer; // Swap players
+            }
+
+
+            if (playerOneScore > playerTwoScore)
+            {
+                Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}:{playerTwoScore}");
+            }
+            else if (playerTwoScore > playerOneScore)
+            {
+                if (twoPlayer == true)
+                {
+                    Console.WriteLine($"Player 2 Wins, Score: {playerTwoScore}:{playerOneScore}");
+                }
+                else
+                {
+                    Console.WriteLine($"Computer Wins, Score: {playerTwoScore}:{playerOneScore}");
+                }
             }
         }
     }
