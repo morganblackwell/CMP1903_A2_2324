@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,10 +12,19 @@ namespace CMP1903_A2_2324
     {
         public void Main()
         {
+            Console.WriteLine("Multiplayer (1) or Computer (2)");
+            int opponentOption = int.Parse(Console.ReadLine());
+            Console.WriteLine();
+
+            bool twoPlayer;
+            if (opponentOption == 1) twoPlayer = true; else twoPlayer = false; 
+
+            bool activePlayer = false; // false = player 1, true = player 2
             Statistics statistics = new Statistics();
             statistics.SetTimesPlayed();
 
-            int score = 0; // Start score at 0
+            int playerOneScore = 0;
+            int playerTwoScore = 0; // Start score at 0
 
             // Create two dice
             Die die1 = new Die();
@@ -21,39 +32,68 @@ namespace CMP1903_A2_2324
 
             while (true)
             {
+                activePlayer = !activePlayer; // Swap player
+
                 // Roll both dice
                 int roll1 = die1.Roll();
                 int roll2 = die2.Roll();
 
                 int total = roll1 + roll2; // total = the sum of both dice
 
-                if (total != 7)
+                if (roll1 == roll2) // If both values are the same
                 {
-                    if (roll1 == roll2) // If both values are the same
+                    if (activePlayer == true) playerOneScore += total * 2; else playerTwoScore += total * 2; // Add double the total of rolls to score
+                }
+                else
+                {
+                    if (activePlayer == true) playerOneScore += total; else playerTwoScore += total; // Add rolls to score
+                }
+
+                if (twoPlayer == false)
+                {
+                    Console.WriteLine($"{(activePlayer ? "Player 1" : "Computer")}");
+                }
+                else
+                {
+                    Console.WriteLine($"Player {(activePlayer ? 1 : 2)}");
+                }
+
+                Console.WriteLine($"Roll 1: {roll1}\nRoll 2: {roll2}");
+                Console.Write("Score: ");
+                if (activePlayer == true) Console.WriteLine(playerOneScore); else Console.WriteLine(playerTwoScore);  // Output rolls and score
+                Console.WriteLine();
+
+                if (total == 7) // End game
+                {
+                    if (playerOneScore > playerTwoScore)
                     {
-                        score += total * 2; // Add double the total of rolls to score
+                        Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}");
+                    }
+                    else if (playerTwoScore > playerOneScore)
+                    {
+                        if (twoPlayer == true)
+                        {
+                            Console.WriteLine($"Player 2 Wins, Score: {playerTwoScore}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Computer Wins, Score: {playerTwoScore}");
+                        }
                     }
                     else
                     {
-                        score += total; // Add rolls to score
+                        Console.WriteLine($"Draw, Score: {playerOneScore}");
                     }
 
-                    Console.WriteLine($"Roll 1: {roll1}\nRoll 2: {roll2}\nscore: {score}\n"); // Output rolls and score
-
-                    Console.WriteLine("Press enter to roll");
-                    Console.ReadLine(); // Waits for user to continue
-                }
-                else // Stops when roll total = 7
-                {
-                    if (score > statistics.GetSevensHighScore()) // Check if score > high score
-                    {
-                        statistics.SetSevensHighScore(score); // Change high score
-                    }
-
-                    Console.WriteLine($"Roll 1: {roll1}\nRoll 2: {roll2}\nFinal Score: {score}\n"); // Output total 7 roll and final score
-                    statistics.OutputStatistics(); // Output stats
                     break;
                 }
+
+                if (activePlayer == false || twoPlayer == true)
+                {
+                    Console.WriteLine($"Player {(activePlayer ? 2 : 1)} Press enter to roll");
+                    Console.ReadLine(); // Waits for user to continue
+                }
+                
             }
 
         }
