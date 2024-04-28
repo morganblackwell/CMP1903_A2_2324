@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,7 +36,10 @@ namespace CMP1903_A2_2324
                     else if (menuChoice == 4)
                     {
                         Testing testing = new Testing();
-                        testing.TestDice();
+
+                        testing.isTest = true; // Start testing
+                        testing.TestAll();
+                        testing.isTest = false; // End testing
                     }
                     else
                     {

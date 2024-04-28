@@ -14,10 +14,17 @@ namespace CMP1903_A2_2324
 
     internal class Testing
     {
+        private static bool _isTest = false; // Static stops isTest from returning to false on instantiation
+        public bool isTest // Boolean to decide if game is in testing mode
+        {
+            get { return _isTest; }
+            set { _isTest = value; }
+        }
         public void TestDice()
         {
             Die testDie = new Die();
 
+            Console.WriteLine("Testing Dice\n");
             Console.WriteLine("Number of rolls to test");
             int numberOfDice = int.Parse(Console.ReadLine());
 
@@ -30,14 +37,10 @@ namespace CMP1903_A2_2324
             }
         }
 
-        public void TestGame()
-        {
-            Game testGame = new Game();
-        }
-
         public void TestSevensOut()
         {
             SevensOut testSevensOut = new SevensOut();
+            testSevensOut.Main();
         }
 
         public void TestThreeOrMore()
@@ -48,6 +51,8 @@ namespace CMP1903_A2_2324
         public void TestAll()
         {
             TestDice();
+            TestSevensOut();
+            TestThreeOrMore();
         }
 
     }

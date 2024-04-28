@@ -12,6 +12,9 @@ namespace CMP1903_A2_2324
     {
         public void Main()
         {
+            Testing testing = new Testing();
+            if (testing.isTest) Console.WriteLine("Testing Sevens Out\n");
+
             Console.WriteLine("Multiplayer (1) or Computer (2)");
             int opponentOption = int.Parse(Console.ReadLine());
             Console.WriteLine();
@@ -40,9 +43,23 @@ namespace CMP1903_A2_2324
 
                 int total = roll1 + roll2; // total = the sum of both dice
 
+                // Test total is in correct range before multiplication
+                if (testing.isTest == true)
+                {
+                    Debug.Assert(total >= 2, $"initial rolls are less than 2: {total}");
+                    Debug.Assert(total <= 12, $"Initial rolls are greater than 12: {total}");
+                }
+
                 if (roll1 == roll2) // If both values are the same
                 {
-                    if (activePlayer == true) playerOneScore += total * 2; else playerTwoScore += total * 2; // Add double the total of rolls to score
+                    int newTotal = total * 2;
+                    if (activePlayer == true) playerOneScore += newTotal; else playerTwoScore += newTotal; // Add double the total of rolls to score
+
+                    // Test if multiplication is correct
+                    if (testing.isTest == true)
+                    {
+                        Debug.Assert(newTotal == total * 2, $"Total after multiplication is not double the total: {total} * 2 != {newTotal}");
+                    }
                 }
                 else
                 {
@@ -62,6 +79,7 @@ namespace CMP1903_A2_2324
                 Console.Write("Score: ");
                 if (activePlayer == true) Console.WriteLine(playerOneScore); else Console.WriteLine(playerTwoScore);  // Output rolls and score
                 Console.WriteLine();
+
 
                 if (total == 7) // End game
                 {
@@ -83,6 +101,12 @@ namespace CMP1903_A2_2324
                     else
                     {
                         Console.WriteLine($"Draw, Score: {playerOneScore}:{playerTwoScore}");
+                    }
+
+                    // Check if game has ended on a score of 7
+                    if (testing.isTest == true)
+                    {
+                        Debug.Assert(total == 7, $"Game ended on a {total} not 7");
                     }
 
                     break;
