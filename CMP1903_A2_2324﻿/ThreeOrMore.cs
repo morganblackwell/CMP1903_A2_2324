@@ -146,8 +146,11 @@ namespace CMP1903_A2_2324
                     Console.WriteLine($"Player {(activePlayer ? 1 : 2)}");
                 }
 
-                Console.WriteLine("\nPress Enter to Roll: ");
-                Console.ReadLine();
+                if (activePlayer == false || twoPlayer == true)
+                {
+                    Console.WriteLine("\nPress Enter to Roll: ");
+                    Console.ReadLine();
+                }
 
                 int[] rolls = RollDice(dice, new int[5], 0);
 
