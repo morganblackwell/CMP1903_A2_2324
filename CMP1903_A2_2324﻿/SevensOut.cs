@@ -13,7 +13,7 @@ namespace CMP1903_A2_2324
         public void Main()
         {
             Testing testing = new Testing();
-            if (testing.isTest) Console.WriteLine("Testing Sevens Out\n");
+            if (testing.IsTest) Console.WriteLine("Testing Sevens Out\n");
 
             Console.WriteLine("Multiplayer (1) or Computer (2)");
             int opponentOption = int.Parse(Console.ReadLine());
@@ -44,7 +44,7 @@ namespace CMP1903_A2_2324
                 int total = roll1 + roll2; // total = the sum of both dice
 
                 // Test total is in correct range before multiplication
-                if (testing.isTest == true)
+                if (testing.IsTest == true)
                 {
                     Debug.Assert(total >= 2, $"initial rolls are less than 2: {total}");
                     Debug.Assert(total <= 12, $"Initial rolls are greater than 12: {total}");
@@ -56,7 +56,7 @@ namespace CMP1903_A2_2324
                     if (activePlayer == true) playerOneScore += newTotal; else playerTwoScore += newTotal; // Add double the total of rolls to score
 
                     // Test if multiplication is correct
-                    if (testing.isTest == true)
+                    if (testing.IsTest == true)
                     {
                         Debug.Assert(newTotal == total * 2, $"Total after multiplication is not double the total: {total} * 2 != {newTotal}");
                     }
@@ -104,7 +104,7 @@ namespace CMP1903_A2_2324
                     }
 
                     // Check if game has ended on a score of 7
-                    if (testing.isTest == true)
+                    if (testing.IsTest == true)
                     {
                         Debug.Assert(total == 7, $"Game ended on a {total} not 7");
                     }
