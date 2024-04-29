@@ -15,7 +15,7 @@ namespace CMP1903_A2_2324
     internal class Testing
     {
         private static bool _isTest = false; // Static stops isTest from returning to false on instantiation
-        public bool isTest // Boolean to decide if game is in testing mode
+        public bool IsTest // Boolean to decide if game is in testing mode
         {
             get { return _isTest; }
             set { _isTest = value; }
@@ -46,6 +46,7 @@ namespace CMP1903_A2_2324
         public void TestThreeOrMore()
         {
             ThreeOrMore testThreeOrMore = new ThreeOrMore();
+            testThreeOrMore.Main();
         }
 
         public void TestAll()
