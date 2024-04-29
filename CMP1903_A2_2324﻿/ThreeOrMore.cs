@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +24,13 @@ namespace CMP1903_A2_2324
 
         private int[] RollDice(Die[] dice, int[] rolls, int startingRoll)
         {
-            for (int i = startingRoll; i < 5; i++)
+            // Roll the five dice starting from startingRoll parameter
+            for (int i = startingRoll; i < 5; i++) 
             {
                 rolls[i] = dice[i].Roll();
             }
 
+            // Output rolls
             Console.WriteLine($"\nRoll 1 {rolls[0]}\nRoll 2 {rolls[1]}\nRoll 3 {rolls[2]}\nRoll 4 {rolls[3]}\nRoll 5 {rolls[4]}\n");
 
             return rolls;
@@ -55,7 +58,6 @@ namespace CMP1903_A2_2324
                             bestIndex = j; // Gets the last index of the best roll amount
                         }
                     }
-
                 }
             }
 
@@ -68,47 +70,50 @@ namespace CMP1903_A2_2324
             {
                 Console.WriteLine("2-of-a-kind");
                 int rethrowChoice;
-                if (bestIndex != 4)
+                if (bestIndex != 4) // If last roll of scored dice is not the last index
                 {
                     Console.WriteLine($"Rethrow all (1)\nRethrow from dice {bestIndex + 2} (2)");
                     rethrowChoice = int.Parse(Console.ReadLine());
                 }
-                else
+                else // Can only reroll all
                 {
                     Console.WriteLine("Rethrow all (1)");
                     rethrowChoice = int.Parse(Console.ReadLine());
                 }
 
-                if (rethrowChoice == 1)
+                if (rethrowChoice == 1) // Rethrow all
                 {
-                    rolls = RollDice(dice, new int[5], 0);
+                    rolls = RollDice(dice, new int[5], 0); // Start rolls from start using an empty list
                     (bestIndex, bestCount) = GetBestRoll(rolls);
                     total = GetTotal(bestCount, total, bestIndex, dice, rolls);
                 }
-                else if (rethrowChoice == 2)
+                else if (rethrowChoice == 2) // Rethrow from last scored dice
                 {
-                    rolls = RollDice(dice, rolls, bestIndex + 1);
+                    rolls = RollDice(dice, rolls, bestIndex + 1); // Start rolls from index after last scored
                     (bestIndex, bestCount) = GetBestRoll(rolls);
                     total = GetTotal(bestCount, total, bestIndex, dice, rolls);
                 }
-
             }
-            else
+            else // Not 2-of-a-kind
             {
+                int score;
                 if (bestCount == 3)
                 {
                     Console.WriteLine("3-of-a-kind");
-                    total += 3;
+                    score = 3;
+                    total += score;
                 }
                 else if (bestCount == 4)
                 {
                     Console.WriteLine("4-of-a-kind");
-                    total += 6;
+                    score = 6;
+                    total += score;
                 }
                 else if (bestCount == 5)
                 {
                     Console.WriteLine("5-of-a-kind");
-                    total += 12;
+                    score = 12;
+                    total += score;
                 }
 
                 Console.WriteLine($"Total: {total}");
@@ -117,9 +122,11 @@ namespace CMP1903_A2_2324
             return total;
         }
     
-
         public void Main()
         {
+            Testing testing = new Testing();
+            if (testing.IsTest) Console.WriteLine("Testing Three Or More\n");
+
             Console.WriteLine("Multiplayer (1) or Computer (2)");
             int opponentOption = int.Parse(Console.ReadLine());
             Console.WriteLine();
@@ -134,10 +141,10 @@ namespace CMP1903_A2_2324
              
             Die[] dice = CreateDice();
 
-            while (playerOneScore < 20 && playerTwoScore < 20)
+            while (playerOneScore < 20 && playerTwoScore < 20) // loop until score > 19
             {
                 Console.WriteLine();
-                if (twoPlayer == false)
+                if (twoPlayer == false) // Singleplayer, against a computer
                 {
                     Console.WriteLine($"{(activePlayer ? "Player 1" : "Computer")}");
                 }
@@ -146,7 +153,7 @@ namespace CMP1903_A2_2324
                     Console.WriteLine($"Player {(activePlayer ? 1 : 2)}");
                 }
 
-                if (activePlayer == false || twoPlayer == true)
+                if (activePlayer == false || twoPlayer == true) // Don't ask for input if computers turn
                 {
                     Console.WriteLine("\nPress Enter to Roll: ");
                     Console.ReadLine();
@@ -156,20 +163,19 @@ namespace CMP1903_A2_2324
 
                 (int bestIndex, int bestCount) = GetBestRoll(rolls);
 
-                if (activePlayer == true)
+                if (activePlayer == true) // If player one, edit player ones score
                 {
                     playerOneScore = GetTotal(bestCount, playerOneScore, bestIndex, dice, rolls);
                 }
-                else
+                else // Edit player twos score
                 {
                     playerTwoScore = GetTotal(bestCount, playerTwoScore, bestIndex, dice, rolls);
                 }
-                
 
                 activePlayer = !activePlayer; // Swap players
             }
 
-
+            // Output winner
             if (playerOneScore > playerTwoScore)
             {
                 Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}:{playerTwoScore}");
@@ -184,6 +190,12 @@ namespace CMP1903_A2_2324
                 {
                     Console.WriteLine($"Computer Wins, Score: {playerTwoScore}:{playerOneScore}");
                 }
+            }
+
+            // Check if game has ended on a score of score > 20
+            if (testing.IsTest == true)
+            {
+                Debug.Assert(playerOneScore >= 20 || playerTwoScore >= 20, $"Game ended below 20");
             }
         }
     }
