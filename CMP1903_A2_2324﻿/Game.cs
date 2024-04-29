@@ -37,9 +37,9 @@ namespace CMP1903_A2_2324
                     {
                         Testing testing = new Testing();
 
-                        testing.isTest = true; // Start testing
+                        testing.IsTest = true; // Start testing
                         testing.TestAll();
-                        testing.isTest = false; // End testing
+                        testing.IsTest = false; // End testing
                     }
                     else
                     {
