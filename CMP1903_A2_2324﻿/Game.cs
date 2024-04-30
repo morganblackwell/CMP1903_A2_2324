@@ -32,6 +32,7 @@ namespace CMP1903_A2_2324
                     else if (menuChoice == 3)
                     {
                         Statistics statistics = new Statistics();
+                        statistics.OutputStatistics();
                     }
                     else if (menuChoice == 4)
                     {

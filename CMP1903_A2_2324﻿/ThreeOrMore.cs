@@ -127,6 +127,9 @@ namespace CMP1903_A2_2324
             Testing testing = new Testing();
             if (testing.IsTest) Console.WriteLine("Testing Three Or More\n");
 
+            Statistics statistics = new Statistics();
+            statistics.ThreeOrMorePlays += 1;
+
             Console.WriteLine("Multiplayer (1) or Computer (2)");
             int opponentOption = int.Parse(Console.ReadLine());
             Console.WriteLine();
@@ -179,16 +182,31 @@ namespace CMP1903_A2_2324
             if (playerOneScore > playerTwoScore)
             {
                 Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}:{playerTwoScore}");
+                statistics.PlayerOneWins += 1;
+
+                if (playerOneScore > statistics.ThreeOrMoreHighScore)
+                {
+                    statistics.ThreeOrMoreHighScore = playerOneScore;
+                }
             }
             else if (playerTwoScore > playerOneScore)
             {
                 if (twoPlayer == true)
                 {
                     Console.WriteLine($"Player 2 Wins, Score: {playerTwoScore}:{playerOneScore}");
+                    statistics.PlayerTwoWins += 1;
+
+                    if (playerTwoScore > statistics.ThreeOrMoreHighScore)
+                    {
+                        statistics.ThreeOrMoreHighScore = playerTwoScore;
+                    }
                 }
                 else
                 {
                     Console.WriteLine($"Computer Wins, Score: {playerTwoScore}:{playerOneScore}");
+                    statistics.ComputerWins += 1;
+
+                    // Don't change highscore if belongs to computer
                 }
             }
 

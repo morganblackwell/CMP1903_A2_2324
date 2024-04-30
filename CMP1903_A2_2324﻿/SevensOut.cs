@@ -15,6 +15,9 @@ namespace CMP1903_A2_2324
             Testing testing = new Testing();
             if (testing.IsTest) Console.WriteLine("Testing Sevens Out\n");
 
+            Statistics statistics = new Statistics();
+            statistics.SevensOutPlays += 1;
+
             Console.WriteLine("Multiplayer (1) or Computer (2)");
             int opponentOption = int.Parse(Console.ReadLine());
             Console.WriteLine();
@@ -23,8 +26,6 @@ namespace CMP1903_A2_2324
             if (opponentOption == 1) twoPlayer = true; else twoPlayer = false; 
 
             bool activePlayer = false; // false = player 1, true = player 2
-            Statistics statistics = new Statistics();
-            statistics.SetTimesPlayed();
 
             int playerOneScore = 0;
             int playerTwoScore = 0; // Start score at 0
@@ -86,22 +87,38 @@ namespace CMP1903_A2_2324
                     if (playerOneScore > playerTwoScore)
                     {
                         Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}:{playerTwoScore}");
+                        statistics.PlayerOneWins += 1;
+
+                        if (playerOneScore > statistics.SevensOutHighScore)
+                        {
+                            statistics.SevensOutHighScore = playerOneScore;
+                        }
                     }
                     else if (playerTwoScore > playerOneScore)
                     {
                         if (twoPlayer == true)
                         {
                             Console.WriteLine($"Player 2 Wins, Score: {playerTwoScore}:{playerOneScore}");
+                            statistics.PlayerTwoWins += 1;
+
+                            if (playerTwoScore > statistics.SevensOutHighScore)
+                            {
+                                statistics.SevensOutHighScore = playerTwoScore;
+                            }
                         }
                         else
                         {
                             Console.WriteLine($"Computer Wins, Score: {playerTwoScore}:{playerOneScore}");
+                            statistics.ComputerWins += 1;
+
+                            // Don't change highscore if belongs to computer
                         }
                     }
                     else
                     {
                         Console.WriteLine($"Draw, Score: {playerOneScore}:{playerTwoScore}");
                     }
+
 
                     // Check if game has ended on a score of 7
                     if (testing.IsTest == true)
