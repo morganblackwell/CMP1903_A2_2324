@@ -9,11 +9,19 @@ namespace CMP1903_A2_2324
 {
     internal class Game
     {
+        public string GameName { get; set; } = null;
         static void Main() // Entry point
         {
+            Game[] games = { new SevensOut(), new ThreeOrMore() };
+
             while (true)
             {
-                Console.WriteLine("\nSevens Out (1)\nThree Or More (2)\nStatistics (3)\nTesting (4)");
+                // Output all available games along with the number for the user to select it
+                for (int i = 0; i < games.Length; i++)
+                {
+                    Console.WriteLine($"{games[i].GameName} ({i + 1})");
+                }
+                Console.WriteLine($"Statistics ({games.Length + 1})\nTesting ({games.Length + 2})");
                 try
                 {
                     int menuChoice = int.Parse(Console.ReadLine());
@@ -29,12 +37,12 @@ namespace CMP1903_A2_2324
                         ThreeOrMore threeOrMore = new ThreeOrMore();
                         threeOrMore.Main();
                     }
-                    else if (menuChoice == 3)
+                    else if (menuChoice == games.Length + 1)
                     {
                         Statistics statistics = new Statistics();
                         statistics.OutputStatistics();
                     }
-                    else if (menuChoice == 4)
+                    else if (menuChoice == games.Length + 2)
                     {
                         Testing testing = new Testing();
 
@@ -44,7 +52,7 @@ namespace CMP1903_A2_2324
                     }
                     else
                     {
-                        Console.WriteLine("Input must be an integer between 1 and 4");
+                        Console.WriteLine($"Input must be an integer between 1 and {games.Length + 2}");
                         Main();
                     }
 

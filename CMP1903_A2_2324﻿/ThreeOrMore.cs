@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace CMP1903_A2_2324
 {
-    internal class ThreeOrMore
+    internal class ThreeOrMore : Game
     {
+        public ThreeOrMore()
+        {
+            GameName = "Three Or More";
+        }
         private Die[] CreateDice()
         {
             // Create five dice

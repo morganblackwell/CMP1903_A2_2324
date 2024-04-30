@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 
 namespace CMP1903_A2_2324
 {
-    internal class SevensOut
+    internal class SevensOut : Game
     {
+        public SevensOut()
+        {
+            GameName = "Sevens Out";
+        }
         public void Main()
         {
             Testing testing = new Testing();
