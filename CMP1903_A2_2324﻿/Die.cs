@@ -8,11 +8,6 @@ namespace CMP1903_A2_2324
 {
     internal class Die
     {
-        /*
-         * The Die class should contain one property to hold the current die value,
-         * and one method that rolls the die, returns and integer and takes no parameters.
-         */
-
         /// <summary>
         /// Sets currentValue to a randomly assigned 6 sided die.
         /// Utilises the Built-in 'Random' class to get a value between 1 and 6
@@ -20,7 +15,6 @@ namespace CMP1903_A2_2324
 
         private int _currentValue; // Holds the value that is currently assigned to the die
 
-        // Property
         // Usage of a get and set method to reduce accessibility from outside of this class
         public int CurrentValue
         {
