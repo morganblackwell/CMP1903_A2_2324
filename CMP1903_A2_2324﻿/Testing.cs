@@ -34,8 +34,8 @@ namespace CMP1903_A2_2324
             {
                 int roll = testDie.Roll();
                 
-                Debug.Assert(roll >= 1, "Roll is less than 1");
-                Debug.Assert(roll <= 6, "Roll is greater than 6");
+                Debug.Assert(roll >= 1, $"Roll is less than 1 ({roll})");
+                Debug.Assert(roll <= 6, $"Roll is greater than 6 ({roll})");
             }
 
             tested.Add("Dice Rolls");
