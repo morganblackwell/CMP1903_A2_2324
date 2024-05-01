@@ -71,6 +71,8 @@ namespace CMP1903_A2_2324
 
         private static int GetTotal(int bestCount, int total, int bestIndex, Die[] dice, int[] rolls, bool activePlayer, bool twoPlayer)
         {
+            Testing testing = new Testing();
+
             if (bestCount == 2)
             {
                 Console.WriteLine("2-of-a-kind");
@@ -120,7 +122,6 @@ namespace CMP1903_A2_2324
                     }
                 }
 
-
                 if (rethrowChoice == 1) // Rethrow all
                 {
                     rolls = RollDice(dice, new int[5], 0); // Start rolls from start using an empty list
@@ -136,7 +137,9 @@ namespace CMP1903_A2_2324
             }
             else // Not 2-of-a-kind
             {
-                int score;
+                int oldTotal = total;
+                int score = 0;
+
                 if (bestCount == 3)
                 {
                     Console.WriteLine("3-of-a-kind");
@@ -157,6 +160,12 @@ namespace CMP1903_A2_2324
                 }
 
                 Console.WriteLine($"Total: {total}");
+
+                // Check if total is calculated correctly
+                if (testing.IsTest)
+                {
+                    Debug.Assert(total == oldTotal + score, $"Total calculation is incorrect\nExpected Total: {oldTotal + score}\nCalculated Total: {total}");
+                }
             }
 
             return total;
