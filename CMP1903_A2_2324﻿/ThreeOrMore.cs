@@ -14,7 +14,7 @@ namespace CMP1903_A2_2324
         {
             GameName = "Three Or More";
         }
-        private Die[] CreateDice()
+        private static Die[] CreateDice()
         {
             // Create five dice
             Die die1 = new Die();
@@ -27,7 +27,7 @@ namespace CMP1903_A2_2324
             return dice;
         }
 
-        private int[] RollDice(Die[] dice, int[] rolls, int startingRoll)
+        private static int[] RollDice(Die[] dice, int[] rolls, int startingRoll)
         {
             // Roll the five dice starting from startingRoll parameter
             for (int i = startingRoll; i < 5; i++) 
@@ -41,7 +41,7 @@ namespace CMP1903_A2_2324
             return rolls;
         }
 
-        private (int, int) GetBestRoll(int[] rolls)
+        private static (int, int) GetBestRoll(int[] rolls)
         {
             int bestCount = -1;
             int bestIndex = -1;
@@ -69,7 +69,7 @@ namespace CMP1903_A2_2324
             return (bestIndex, bestCount);
         }
 
-        private int GetTotal(int bestCount, int total, int bestIndex, Die[] dice, int[] rolls, bool activePlayer, bool twoPlayer)
+        private static int GetTotal(int bestCount, int total, int bestIndex, Die[] dice, int[] rolls, bool activePlayer, bool twoPlayer)
         {
             if (bestCount == 2)
             {
