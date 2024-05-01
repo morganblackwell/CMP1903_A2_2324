@@ -106,6 +106,7 @@ namespace CMP1903_A2_2324
                         Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}:{playerTwoScore}");
                         statistics.PlayerOneWins += 1;
 
+                        // New highscore
                         if (playerOneScore > statistics.SevensOutHighScore)
                         {
                             statistics.SevensOutHighScore = playerOneScore;
@@ -118,6 +119,7 @@ namespace CMP1903_A2_2324
                             Console.WriteLine($"Player 2 Wins, Score: {playerTwoScore}:{playerOneScore}");
                             statistics.PlayerTwoWins += 1;
 
+                            // New high score
                             if (playerTwoScore > statistics.SevensOutHighScore)
                             {
                                 statistics.SevensOutHighScore = playerTwoScore;

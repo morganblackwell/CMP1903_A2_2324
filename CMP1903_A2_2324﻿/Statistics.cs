@@ -93,7 +93,7 @@ namespace CMP1903_A2_2324
             GetStatisticChoice(); // Return to statistic menu
         }
 
-        // Uses LINQ to find ouput all statistics with user chosen value
+        // Uses LINQ to find output all statistics with user chosen value
         private void OutputStatistics(int value) // Static Polymorphism
         {
             Dictionary<string, int> statisticsDict = new Dictionary<string, int>()
