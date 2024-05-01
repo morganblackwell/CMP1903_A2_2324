@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,34 +69,69 @@ namespace CMP1903_A2_2324
             return (bestIndex, bestCount);
         }
 
-        private int GetTotal(int bestCount, int total, int bestIndex, Die[] dice, int[] rolls)
+        private int GetTotal(int bestCount, int total, int bestIndex, Die[] dice, int[] rolls, bool activePlayer, bool twoPlayer)
         {
             if (bestCount == 2)
             {
                 Console.WriteLine("2-of-a-kind");
-                int rethrowChoice;
-                if (bestIndex != 4) // If last roll of scored dice is not the last index
+
+                int rethrowChoice = 0;
+
+                if (activePlayer == false && twoPlayer == false) // If computers turn
                 {
-                    Console.WriteLine($"Rethrow all (1)\nRethrow from dice {bestIndex + 2} (2)");
-                    rethrowChoice = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Rethrowing...");
+
+                    Random random = new Random();
+                    rethrowChoice = random.Next(1, 3); // Random choice for rerolling
                 }
-                else // Can only reroll all
+                else
                 {
-                    Console.WriteLine("Rethrow all (1)");
-                    rethrowChoice = int.Parse(Console.ReadLine());
+                    if (bestIndex != 4) // If last roll of scored dice is not the last index
+                    {
+                        while (rethrowChoice != 1 && rethrowChoice != 2)
+                        {
+                            Console.WriteLine($"Rethrow all (1)\nRethrow from dice {bestIndex + 2} (2)");
+                            try
+                            {
+                                rethrowChoice = int.Parse(Console.ReadLine());
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Input must be an integer between 1 and 2");
+                            }
+                            
+                        }
+                    }
+                    else // Can only reroll all
+                    {
+                        while (rethrowChoice != 1)
+                        {
+                            Console.WriteLine("Rethrow all (1)");
+                            try
+                            {
+                                rethrowChoice = int.Parse(Console.ReadLine());
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Input must be an integer");
+                            }
+                            
+                        }
+                    }
                 }
+
 
                 if (rethrowChoice == 1) // Rethrow all
                 {
                     rolls = RollDice(dice, new int[5], 0); // Start rolls from start using an empty list
                     (bestIndex, bestCount) = GetBestRoll(rolls);
-                    total = GetTotal(bestCount, total, bestIndex, dice, rolls);
+                    total = GetTotal(bestCount, total, bestIndex, dice, rolls, activePlayer, twoPlayer);
                 }
                 else if (rethrowChoice == 2) // Rethrow from last scored dice
                 {
                     rolls = RollDice(dice, rolls, bestIndex + 1); // Start rolls from index after last scored
                     (bestIndex, bestCount) = GetBestRoll(rolls);
-                    total = GetTotal(bestCount, total, bestIndex, dice, rolls);
+                    total = GetTotal(bestCount, total, bestIndex, dice, rolls, activePlayer, twoPlayer);
                 }
             }
             else // Not 2-of-a-kind
@@ -134,9 +170,21 @@ namespace CMP1903_A2_2324
             Statistics statistics = new Statistics();
             statistics.ThreeOrMorePlays += 1;
 
-            Console.WriteLine("Multiplayer (1) or Computer (2)");
-            int opponentOption = int.Parse(Console.ReadLine());
-            Console.WriteLine();
+            int opponentOption = 0;
+            while (opponentOption != 1 && opponentOption != 2)
+            {
+                Console.WriteLine("Multiplayer (1) or Computer (2)");
+                try
+                {
+                    opponentOption = int.Parse(Console.ReadLine());
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Input must be an integer between 1 and 2");
+                }
+
+                Console.WriteLine();
+            }
 
             bool twoPlayer;
             if (opponentOption == 1) twoPlayer = true; else twoPlayer = false;
@@ -160,7 +208,7 @@ namespace CMP1903_A2_2324
                     Console.WriteLine($"Player {(activePlayer ? 1 : 2)}");
                 }
 
-                if (activePlayer == false || twoPlayer == true) // Don't ask for input if computers turn
+                if (activePlayer == true || twoPlayer == true) // Don't ask for input if computers turn
                 {
                     Console.WriteLine("\nPress Enter to Roll: ");
                     Console.ReadLine();
@@ -172,18 +220,18 @@ namespace CMP1903_A2_2324
 
                 if (activePlayer == true) // If player one, edit player ones score
                 {
-                    playerOneScore = GetTotal(bestCount, playerOneScore, bestIndex, dice, rolls);
+                    playerOneScore = GetTotal(bestCount, playerOneScore, bestIndex, dice, rolls, activePlayer, twoPlayer);
                 }
                 else // Edit player twos score
                 {
-                    playerTwoScore = GetTotal(bestCount, playerTwoScore, bestIndex, dice, rolls);
+                    playerTwoScore = GetTotal(bestCount, playerTwoScore, bestIndex, dice, rolls, activePlayer, twoPlayer);
                 }
 
                 activePlayer = !activePlayer; // Swap players
             }
 
             // Output winner
-            if (playerOneScore > playerTwoScore)
+            if (playerOneScore > playerTwoScore) // Player One wins
             {
                 Console.WriteLine($"Player 1 Wins, Score: {playerOneScore}:{playerTwoScore}");
                 statistics.PlayerOneWins += 1;
@@ -193,9 +241,9 @@ namespace CMP1903_A2_2324
                     statistics.ThreeOrMoreHighScore = playerOneScore;
                 }
             }
-            else if (playerTwoScore > playerOneScore)
+            else if (playerTwoScore > playerOneScore) 
             {
-                if (twoPlayer == true)
+                if (twoPlayer == true) // Player Two wins
                 {
                     Console.WriteLine($"Player 2 Wins, Score: {playerTwoScore}:{playerOneScore}");
                     statistics.PlayerTwoWins += 1;
@@ -205,7 +253,7 @@ namespace CMP1903_A2_2324
                         statistics.ThreeOrMoreHighScore = playerTwoScore;
                     }
                 }
-                else
+                else // Computer Wins
                 {
                     Console.WriteLine($"Computer Wins, Score: {playerTwoScore}:{playerOneScore}");
                     statistics.ComputerWins += 1;

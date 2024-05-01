@@ -22,9 +22,21 @@ namespace CMP1903_A2_2324
             Statistics statistics = new Statistics();
             statistics.SevensOutPlays += 1;
 
-            Console.WriteLine("Multiplayer (1) or Computer (2)");
-            int opponentOption = int.Parse(Console.ReadLine());
-            Console.WriteLine();
+            int opponentOption = 0;
+            while (opponentOption != 1 && opponentOption != 2)
+            {
+                Console.WriteLine("Multiplayer (1) or Computer (2)");
+                try
+                {
+                    opponentOption = int.Parse(Console.ReadLine());
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Input must be an integer between 1 and 2");
+                }
+              
+                Console.WriteLine();
+            }
 
             bool twoPlayer;
             if (opponentOption == 1) twoPlayer = true; else twoPlayer = false; 
@@ -82,6 +94,7 @@ namespace CMP1903_A2_2324
 
                 Console.WriteLine($"Roll 1: {roll1}\nRoll 2: {roll2}");
                 Console.Write("Score: ");
+
                 if (activePlayer == true) Console.WriteLine(playerOneScore); else Console.WriteLine(playerTwoScore);  // Output rolls and score
                 Console.WriteLine();
 
@@ -133,14 +146,12 @@ namespace CMP1903_A2_2324
                     break;
                 }
 
-                if (activePlayer == false || twoPlayer == true)
+                if (activePlayer == false || twoPlayer == true) // if not a computer
                 {
                     Console.WriteLine($"Player {(activePlayer ? 2 : 1)} Press enter to roll");
                     Console.ReadLine(); // Waits for user to continue
                 }
-                
             }
-
         }
     }
 }

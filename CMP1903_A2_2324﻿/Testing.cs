@@ -20,6 +20,8 @@ namespace CMP1903_A2_2324
             get { return _isTest; }
             set { _isTest = value; }
         }
+
+        public List<string> tested = new List<string>();
         public void TestDice()
         {
             Die testDie = new Die();
@@ -35,18 +37,22 @@ namespace CMP1903_A2_2324
                 Debug.Assert(roll >= 1, "Roll is less than 1");
                 Debug.Assert(roll <= 6, "Roll is greater than 6");
             }
+
+            tested.Add("Dice Rolls");
         }
 
         public void TestSevensOut()
         {
             SevensOut testSevensOut = new SevensOut();
             testSevensOut.Main();
+            tested.Add("Sevens Out");
         }
 
         public void TestThreeOrMore()
         {
             ThreeOrMore testThreeOrMore = new ThreeOrMore();
             testThreeOrMore.Main();
+            tested.Add("Three Or More");
         }
 
         public void TestAll()

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CMP1903_A2_2324
 {
-    internal class Game
+    abstract class Game // Abstract, cannot be used to create objects
     {
-        public string GameName { get; set; } = null;
+        protected string GameName { get; set; } = null;
         static void Main() // Entry point
         {
             Game[] games = { new SevensOut(), new ThreeOrMore() };
@@ -39,8 +39,10 @@ namespace CMP1903_A2_2324
                     }
                     else if (menuChoice == games.Length + 1)
                     {
+                        
                         Statistics statistics = new Statistics();
-                        statistics.OutputStatistics();
+                        statistics.GetStatisticChoice();
+
                     }
                     else if (menuChoice == games.Length + 2)
                     {
@@ -49,6 +51,14 @@ namespace CMP1903_A2_2324
                         testing.IsTest = true; // Start testing
                         testing.TestAll();
                         testing.IsTest = false; // End testing
+
+                        // Output all tested features
+                        Console.WriteLine("\nTested features:");
+                        foreach (string test in testing.tested)
+                        {
+                            Console.WriteLine(test);
+                        }
+                        Console.WriteLine("\n");
                     }
                     else
                     {

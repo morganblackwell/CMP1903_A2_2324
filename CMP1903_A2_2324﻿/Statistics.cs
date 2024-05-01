@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,17 +66,78 @@ namespace CMP1903_A2_2324
             set { _computerWins = value; }
         }
 
-        public void OutputStatistics() // Outputs all statistics to console 
-        {
-            Console.WriteLine($"Number of plays\nSevens Out: {SevensOutPlays}\nThree Or More: {ThreeOrMorePlays}\n");
-            Console.WriteLine($"High Scores\nSevens Out: {SevensOutHighScore}\nThree Or More: {ThreeOrMoreHighScore}\n");
-            Console.WriteLine($"Wins\nPlayer One: {PlayerOneWins}\nPlayer Two: {PlayerTwoWins}\nComputer: {ComputerWins}\n");
 
-            Console.WriteLine("Reset statistics? (y/n)");
-            string resetChoice = Console.ReadLine().ToLower();
-            if (resetChoice == "y") ResetStatistics();
+        private void OutputStatistics(string statisticChoice) // Static Polymorphism
+        {
+            if (statisticChoice == "p") // Plays
+            {
+                Console.WriteLine($"Number of plays\nSevens Out: {SevensOutPlays}\nThree Or More: {ThreeOrMorePlays}\n");
+            }
+            else if (statisticChoice == "s") // Scores
+            {
+                Console.WriteLine($"High Scores\nSevens Out: {SevensOutHighScore}\nThree Or More: {ThreeOrMoreHighScore}\n");
+            }
+            else if (statisticChoice == "w") // Wins
+            {
+                Console.WriteLine($"Wins\nPlayer One: {PlayerOneWins}\nPlayer Two: {PlayerTwoWins}\nComputer: {ComputerWins}\n");
+            }
+            else if (statisticChoice == "a") // All
+            {
+                Console.WriteLine($"Number of plays\nSevens Out: {SevensOutPlays}\nThree Or More: {ThreeOrMorePlays}\n");
+                Console.WriteLine($"High Scores\nSevens Out: {SevensOutHighScore}\nThree Or More: {ThreeOrMoreHighScore}\n");
+                Console.WriteLine($"Wins\nPlayer One: {PlayerOneWins}\nPlayer Two: {PlayerTwoWins}\nComputer: {ComputerWins}\n");
+            }
+            else if (statisticChoice == "r") ResetStatistics(); // Reset
+            else if (statisticChoice == "b") return; // Back
+
+            GetStatisticChoice(); // Return to statistic menu
         }
 
+        // Uses LINQ to find ouput all statistics with user chosen value
+        private void OutputStatistics(int value) // Static Polymorphism
+        {
+            Dictionary<string, int> statisticsDict = new Dictionary<string, int>()
+            {
+                {"Sevens Out Plays", SevensOutPlays },
+                {"Three Or More Plays", ThreeOrMorePlays },
+                {"Sevens Out High Score", SevensOutHighScore },
+                {"Three Or More High Score", ThreeOrMoreHighScore },
+                {"Player One Wins", PlayerOneWins },
+                {"Player Two Wins", PlayerTwoWins },
+                {"Computer Wins", ComputerWins }
+            };
+
+            var output = from val in statisticsDict
+                         where val.Value == value
+                         select val;
+
+            foreach ( var val in output)
+            {
+                Console.WriteLine($"{val.Key}: {val.Value}");
+            }
+
+            Console.WriteLine();
+        }
+
+        public void GetStatisticChoice() // Gets a statistic option from user using a menu
+        {
+            Console.WriteLine("\nOutput number of plays(p), high scores(s), number of wins(w), all (a)\n");
+            Console.WriteLine("Search for a statistic from value (value to search for)\n");
+            Console.WriteLine("Reset Statistics (r)");
+            Console.WriteLine("Go back to menu (b)");
+
+            string statisticChoice = Console.ReadLine().ToLower();
+            try
+            {
+                int value = int.Parse(statisticChoice);
+                OutputStatistics(value);
+            }
+            catch (FormatException)
+            {
+                OutputStatistics(statisticChoice);
+            }
+        }
+        
         private void ResetStatistics() // Sets all statistics to 0
         {
             SevensOutPlays = 0;
